@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiAppCadastro.MainPage"
+             BackgroundColor="#141414">
+
+    <ScrollView>
+        <StackLayout Padding="30" Spacing="20">
+
+            <Label Text="Cadastro de Produtos" 
+                   FontSize="30" 
+                   HorizontalOptions="Center" 
+                   TextColor="#E50914" 
+                   FontAttributes="Bold"/>
+
+            <Entry x:Name="nomeEntry" 
+                   Placeholder="Nome do Produto" 
+                   BackgroundColor="#333333" 
+                   TextColor="#FFFFFF" 
+                   PlaceholderColor="#AAAAAA" 
+                   Margin="0,10"
+                   />
+
+            <Entry x:Name="precoEntry" 
+                   Placeholder="Preço" 
+                   Keyboard="Numeric" 
+                   BackgroundColor="#333333" 
+                   TextColor="#FFFFFF" 
+                   PlaceholderColor="#AAAAAA" 
+                   Margin="0,10"/>
+
+            <Entry x:Name="DescricaoEntry" 
+                   Placeholder="Descrição do Produto" 
+                   BackgroundColor="#333333" 
+                   TextColor="#FFFFFF" 
+                   PlaceholderColor="#AAAAAA" 
+                   Margin="0,10"/>
+
+            <Label Text="Possui validade?" 
+                   FontSize="18" 
+                   TextColor="#FFFFFF"/>
+
+            <Switch x:Name="possuiValidadeSwitch" 
+                    Toggled="PossuiValidadeSwitch_Toggled" 
+                    ThumbColor="#E50914" 
+                    OnColor="#E50914" />
+
+            <DatePicker x:Name="Validade" 
+                        Format="dd/MM/yyyy" 
+                        IsVisible="False" 
+                        BackgroundColor="#333333" 
+                        TextColor="#FFFFFF" />
+
+            <Entry x:Name="CategoriaEntry" 
+                   Placeholder="Categoria do Produto" 
+                   BackgroundColor="#333333" 
+                   TextColor="#FFFFFF" 
+                   PlaceholderColor="#AAAAAA" 
+                   Margin="0,10"/>
+
+            <Button Text="Adicionar Produto" 
+                    Clicked="AdicionarProduto_Clicked" 
+                    BackgroundColor="#E50914" 
+                    TextColor="White" 
+                    CornerRadius="5"/>
+
+            <Button Text="Ver Lista de Produtos" 
+                    Clicked="IrParaLista_Clicked" 
+                    BackgroundColor="#E50914" 
+                    TextColor="White" 
+                    CornerRadius="5"/>
+
+            <Label x:Name="mensagemLabel" 
+                   FontSize="16" 
+                   TextColor="Green" 
+                   HorizontalOptions="Center"/>
+
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>
