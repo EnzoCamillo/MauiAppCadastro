@@ -7,7 +7,7 @@ namespace MauiAppCadastro
 {
     public partial class MainPage : ContentPage
     {
-        public static List<Produto> Produtos { get; set; } = new List<Produto>();
+        public static List<Produto> Produtos { get; set; } = ProdutoStorage.CarregarProdutos();
 
         public MainPage()
         {
@@ -36,7 +36,7 @@ namespace MauiAppCadastro
                     Descricao = descricao,
                     Categoria = categoria,
                     Validade = validade,
-
+                    CaminhoImagem = caminhoImagemSelecionada
                 });
 
                 mensagemLabel.Text = "Produto Cadastrado com Sucesso!";
@@ -46,10 +46,27 @@ namespace MauiAppCadastro
                 CategoriaEntry.Text = string.Empty;
                 possuiValidadeSwitch.IsToggled = false;
                 Validade.Date = DateTime.Now;
+
+                ProdutoStorage.SalvarProdutos(Produtos);
+                previewImagem.Source = "";
             }
             else
             {
                 mensagemLabel.Text = "Preencha os campos corretamente!";
+            }
+        }
+        private string caminhoImagemSelecionada;
+        private async void SelecionarImagem_Clicked(object sender, EventArgs e)
+        {
+            var resultado = await FilePicker.PickAsync(new PickOptions
+            {
+                PickerTitle = "Selecione uma imagem",
+                FileTypes = FilePickerFileType.Images
+            });
+            if (resultado != null)
+            {
+                caminhoImagemSelecionada = resultado.FullPath;
+                previewImagem.Source = ImageSource.FromFile(caminhoImagemSelecionada);
             }
         }
 
@@ -70,14 +87,6 @@ namespace MauiAppCadastro
                 border.Stroke = Colors.Red;
             }
         }
-
-        private void OnEntryUnfocused(object sender, FocusEventArgs e)
-        {
-            if (sender is Entry entry && entry.Parent is Border border)
-            {
-                border.Stroke = Color.FromArgb("#444");
-            }
-        }
     }
 
     public class Produto
@@ -87,6 +96,7 @@ namespace MauiAppCadastro
         public string Descricao { get; set; }
         public DateTime? Validade { get; set; }
         public string Categoria { get; set; }
+        public string? CaminhoImagem { get; set; }
         public bool Vencido => Validade.HasValue && Validade.Value < DateTime.Now;
 
         public string ValidadeFormatada => Validade?.ToString("dd/MM/yyyy") ?? "Sem validade";
@@ -100,7 +110,6 @@ namespace MauiAppCadastro
             Validade = validade;
             Categoria = categoria;
         }
-
         public Produto() { }
     }
 }

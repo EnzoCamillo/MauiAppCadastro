@@ -5,79 +5,91 @@
              xmlns:converters="clr-namespace:MauiAppCadastro"
              Title="Lista de Produtos"
              BackgroundColor="#141414">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
 
-    <VerticalStackLayout Padding="20" Spacing="15">
-
-        <Label Text="Lista de Produtos" 
-               FontSize="28" 
-               HorizontalOptions="Center" 
-               TextColor="#E50914" 
-               FontAttributes="Bold"/>
+            <Label Text="Lista de Produtos" 
+                   FontSize="28" 
+                   HorizontalOptions="Center" 
+                   TextColor="#E50914" 
+                   FontAttributes="Bold"/>
         
-        <Picker x:Name="filtroCategoriaPicker" Title="Filtrar por Categoria" SelectedIndexChanged="FiltrarPorCategoria">
+            <Picker x:Name="filtroCategoriaPicker" Title="Filtrar por Categoria" SelectedIndexChanged="FiltrarPorCategoria">
 
-            <Picker.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>Todas</x:String>
-                    <x:String>Alimentos</x:String>
-                    <x:String>Eletrônicos</x:String>
-                    <x:String>Vestuário</x:String>
-                    <x:String>Outros</x:String>
-                </x:Array>
-            </Picker.ItemsSource>
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Todas</x:String>
+                        <x:String>Alimentos</x:String>
+                        <x:String>Eletrônicos</x:String>
+                        <x:String>Vestuário</x:String>
+                        <x:String>Outros</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
 
-        </Picker>
-        <ListView x:Name="produtosListView" 
-                  BackgroundColor="Transparent" 
-                  SeparatorVisibility="None" 
-                  HasUnevenRows="True">
+            </Picker>
+            <ListView x:Name="produtosListView" 
+                      BackgroundColor="Transparent" 
+                      SeparatorVisibility="None" 
+                      HasUnevenRows="True"
+                      ItemTapped="OnItemTapped">
 
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Frame CornerRadius="10" 
-                               Padding="15" 
-                               Margin="0,5" 
-                               BackgroundColor="#222"
-                               BorderColor="#E50914"
-                               HasShadow="False">
-                            <StackLayout Spacing="5">
-                                <Label Text="{Binding Nome}" 
-                                       FontAttributes="Bold" 
-                                       FontSize="18" 
-                                       TextColor="#FFFFFF"/>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame CornerRadius="10" 
+                                   Padding="15" 
+                                   Margin="0,5" 
+                                   BackgroundColor="#222"
+                                   BorderColor="#E50914"
+                                   HasShadow="False">
+                                <StackLayout Spacing="5">
+                                    <Label Text="{Binding Nome}" 
+                                           FontAttributes="Bold" 
+                                           FontSize="18" 
+                                           TextColor="#FFFFFF"/>
 
-                                <Label Text="{Binding Descricao}" 
-                                       FontSize="14" 
-                                       TextColor="#DDDDDD"/>
+                                    <Label Text="{Binding Descricao}" 
+                                           FontSize="14" 
+                                           TextColor="#DDDDDD"/>
 
-                                <Label Text="{Binding Categoria}" 
-                                       FontSize="14" 
-                                       TextColor="#AAAAAA"/>
+                                    <Label Text="{Binding Categoria}" 
+                                           FontSize="14" 
+                                           TextColor="#AAAAAA"/>
 
-                                <Label Text="{Binding ValidadeFormatada}" 
-                                       FontSize="14" 
-                                       TextColor="#AAAAAA">
-                                    <Label.Triggers>
-                                        <DataTrigger TargetType="Label" Binding="{Binding Validade}" Value="{x:Null}">
-                                            <Setter Property="Text" Value="Sem validade"/>
-                                            <Setter Property="TextColor" Value="Gray"/>
-                                        </DataTrigger>
-                                        <DataTrigger TargetType="Label" Binding="{Binding Vencido}" Value="True">
-                                            <Setter Property="TextColor" Value="Red"/>
-                                        </DataTrigger>
-                                    </Label.Triggers>
-                                </Label>
+                                    <Label Text="{Binding ValidadeFormatada}" 
+                                           FontSize="14" 
+                                           TextColor="#AAAAAA">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding Validade}" Value="{x:Null}">
+                                                <Setter Property="Text" Value="Sem validade"/>
+                                                <Setter Property="TextColor" Value="Gray"/>
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label" Binding="{Binding Vencido}" Value="True">
+                                                <Setter Property="TextColor" Value="Red"/>
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
 
-                                <Label Text="{Binding PrecoFormatado}" 
-                                       FontSize="14" 
-                                       TextColor="#E50914"
-                                       FontAttributes="Bold"/>
-                            </StackLayout>
-                        </Frame>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </VerticalStackLayout>
+                                    <Label Text="{Binding PrecoFormatado}" 
+                                           FontSize="14" 
+                                           TextColor="#E50914"
+                                           FontAttributes="Bold"/>
+                                    <Image Source="{Binding CaminhoImagem}" HeightRequest="100" WidthRequest="100"/>
+                                </StackLayout>
+                            </Frame>
+
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        
+            <Label 
+                x:Name="resumoLabel" 
+                FontSize="16" 
+                FontAttributes="Bold" 
+                Margin="10,10"/>
+
+            <Label x:Name="alertaLabel" TextColor="Red" FontAttributes="Bold" Margin="10"/>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

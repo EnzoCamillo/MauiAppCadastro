@@ -58,6 +58,9 @@
                    PlaceholderColor="#AAAAAA" 
                    Margin="0,10"/>
 
+            <Button Text="Selecionar Imagem" Clicked="SelecionarImagem_Clicked"/>
+            <Image x:Name="previewImagem" HeightRequest="100" WidthRequest="100"/>
+
             <Button Text="Adicionar Produto" 
                     Clicked="AdicionarProduto_Clicked" 
                     BackgroundColor="#E50914" 
