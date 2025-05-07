@@ -1,4 +1,6 @@
 using Microsoft.Maui.Controls;
+using System.Globalization;
+using System.Text;
 namespace MauiAppCadastro;
 
 public partial class ListaProdutosPage : ContentPage
@@ -13,21 +15,40 @@ public partial class ListaProdutosPage : ContentPage
     private void FiltrarPorCategoria(object sender, EventArgs e)
     {
         string categoriaSelecionada = filtroCategoriaPicker.SelectedItem?.ToString() ?? "Todas";
+        string categoriaSelecionadaNormalizada = RemoveDiacritics(categoriaSelecionada.ToLowerInvariant());
 
-        if (categoriaSelecionada == "Todas")
+        if (categoriaSelecionadaNormalizada == "todas")
         {
-            produtosListView.ItemsSource = MainPage.Produtos.OrderBy(p => p.Validade).ToList();
+            produtosListView.ItemsSource = MainPage.Produtos
+                .OrderBy(p => !p.Validade.HasValue)
+                .ThenBy(p => p.Validade)
+                .ToList();
+        }
+        else if (categoriaSelecionadaNormalizada == "outros")
+        {
+            produtosListView.ItemsSource = MainPage.Produtos
+                .Where(p =>
+                    RemoveDiacritics(p.Categoria.ToLowerInvariant()) != "alimentos" &&
+                    RemoveDiacritics(p.Categoria.ToLowerInvariant()) != "eletronicos" &&
+                    RemoveDiacritics(p.Categoria.ToLowerInvariant()) != "vestuario")
+                .OrderBy(p => !p.Validade.HasValue)
+                .ThenBy(p => p.Validade)
+                .ToList();
         }
         else
         {
             produtosListView.ItemsSource = MainPage.Produtos
-            .Where(p => p.Categoria == categoriaSelecionada)
-            .OrderBy(p => p.Validade)
-            .ToList();
+                .Where(p => RemoveDiacritics(p.Categoria.ToLowerInvariant()) == categoriaSelecionadaNormalizada)
+                .OrderBy(p => !p.Validade.HasValue)
+                .ThenBy(p => p.Validade)
+                .ToList();
         }
-
-        AtualizarResumo();
-        OnAppearing();
+    }
+    public static string RemoveDiacritics(string text)
+    {
+        return new string(text.Normalize(NormalizationForm.FormD)
+            .Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+            .ToArray());
     }
 
     protected override void OnAppearing()
